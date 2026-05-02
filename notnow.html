@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christian Assembly Heggala</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pri: { 50:'#E8F5EE',100:'#C6E7D3',200:'#8FCFAD',300:'#58B787',400:'#2D9F66',500:'#1B4332',600:'#163528',700:'#11271E',800:'#0C1914',900:'#070C0A' },
+                        gold: { 50:'#FDF8ED',100:'#F9EDCC',200:'#F0D88F',300:'#E7C352',400:'#D4A843',500:'#B8912E',600:'#8A6D22',700:'#5C4917',800:'#2E240B',900:'#171203' },
+                        cream: { 50:'#FEFDFB',100:'#FAF7F0',200:'#F5EFE3',300:'#EDE5D3' },
+                    },
+                    fontFamily: { display:['Playfair Display','serif'], body:['Source Sans 3','sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg: #FAF7F0; --fg: #1A1A2E; --muted: #6B7280; --accent: #D4A843;
+            --card: #FFFFFF; --border: #E5E1D8; --sidebar: #1B4332; --sidebar-hover: #2D9F66;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--fg); }
+        .font-display { font-family: 'Playfair Display', serif; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #C6E7D3; border-radius: 3px; }
+
+        /* Sidebar */
+        .sidebar { width: 260px; min-height: 100vh; background: var(--sidebar); transition: transform 0.3s ease; }
+        .sidebar-link { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #C6E7D3;
+            border-radius: 8px; margin: 2px 12px; transition: all 0.2s; cursor: pointer; font-size: 15px; }
+        .sidebar-link:hover, .sidebar-link.active { background: rgba(45,159,102,0.25); color: #fff; }
+        .sidebar-link.active { background: var(--sidebar-hover); font-weight: 600; }
+        .sidebar-link i { width: 20px; text-align: center; font-size: 16px; }
+
+        /* Cards */
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 24px; transition: box-shadow 0.2s; }
+        .card:hover { box-shadow: 0 4px 20px rgba(27,67,50,0.08); }
+
+        /* Stat cards */
+        .stat-card { position: relative; overflow: hidden; }
+        .stat-card::after { content:''; position:absolute; top:-20px; right:-20px; width:80px; height:80px;
+            border-radius:50%; opacity:0.1; }
+        .stat-card.green::after { background: #1B4332; }
+        .stat-card.gold::after { background: #D4A843; }
+        .stat-card.red::after { background: #DC2626; }
+        .stat-card.blue::after { background: #2563EB; }
+
+        /* Buttons */
+        .btn-primary { background: var(--sidebar); color: #fff; padding: 10px 20px; border-radius: 8px;
+            font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; font-size: 14px; }
+        .btn-primary:hover { background: var(--sidebar-hover); transform: translateY(-1px); }
+        .btn-gold { background: var(--accent); color: #fff; padding: 10px 20px; border-radius: 8px;
+            font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; font-size: 14px; }
+        .btn-gold:hover { background: #B8912E; transform: translateY(-1px); }
+        .btn-outline { background: transparent; color: var(--fg); padding: 10px 20px; border-radius: 8px;
+            font-weight: 500; border: 1.5px solid var(--border); cursor: pointer; transition: all 0.2s; font-size: 14px; }
+        .btn-outline:hover { border-color: var(--sidebar); color: var(--sidebar); }
+        .btn-danger { background: #DC2626; color: #fff; padding: 8px 16px; border-radius: 8px;
+            font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; font-size: 13px; }
+        .btn-danger:hover { background: #B91C1C; }
+        .btn-sm { padding: 6px 14px; font-size: 13px; }
+
+        /* Form */
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; color: #374151; }
+        .form-input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+            font-size: 14px; font-family: inherit; transition: border-color 0.2s; background: #fff; }
+        .form-input:focus { outline: none; border-color: var(--sidebar); box-shadow: 0 0 0 3px rgba(27,67,50,0.1); }
+        select.form-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236B7280' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+
+        /* Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
+            display: flex; align-items: center; justify-content: center; padding: 16px;
+            opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+        .modal-overlay.show { opacity: 1; pointer-events: all; }
+        .modal-box { background: #fff; border-radius: 16px; width: 100%; max-width: 520px;
+            max-height: 90vh; overflow-y: auto; transform: translateY(20px) scale(0.97);
+            transition: transform 0.25s; }
+        .modal-overlay.show .modal-box { transform: translateY(0) scale(1); }
+
+        /* Toast */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 200; display: flex;
+            flex-direction: column; gap: 8px; }
+        .toast { padding: 14px 20px; border-radius: 10px; color: #fff; font-weight: 500;
+            font-size: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); transform: translateX(120%);
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); display: flex; align-items: center; gap: 10px; max-width: 360px; }
+        .toast.show { transform: translateX(0); }
+        .toast.success { background: #1B4332; }
+        .toast.error { background: #DC2626; }
+        .toast.info { background: #2563EB; }
+        .toast.warning { background: #D97706; }
+
+        /* Notification dropdown */
+        .notif-dropdown { position: absolute; top: 100%; right: 0; width: 360px; background: #fff;
+            border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            z-index: 50; display: none; }
+        .notif-dropdown.show { display: block; }
+
+        /* Table */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { text-align: left; padding: 12px 16px; font-size: 12px; text-transform: uppercase;
+            letter-spacing: 0.05em; color: var(--muted); border-bottom: 2px solid var(--border); font-weight: 600; }
+        .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .data-table tr:hover td { background: #FAF7F0; }
+
+        /* Badge */
+        .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px;
+            font-size: 12px; font-weight: 600; }
+        .badge-green { background: #E8F5EE; color: #1B4332; }
+        .badge-gold { background: #FDF8ED; color: #8A6D22; }
+        .badge-red { background: #FEE2E2; color: #991B1B; }
+        .badge-blue { background: #DBEAFE; color: #1E40AF; }
+
+        /* Toggle switch */
+        .toggle { position: relative; width: 48px; height: 26px; cursor: pointer; }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; inset: 0; background: #D1D5DB; border-radius: 26px; transition: 0.3s; }
+        .toggle-slider::before { content: ''; position: absolute; width: 20px; height: 20px; left: 3px; bottom: 3px;
+            background: #fff; border-radius: 50%; transition: 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .toggle input:checked + .toggle-slider { background: var(--sidebar); }
+        .toggle input:checked + .toggle-slider::before { transform: translateX(22px); }
+
+        /* Login page */
+        .login-bg { min-height: 100vh; background: linear-gradient(135deg, #1B4332 0%, #2D9F66 50%, #1B4332 100%);
+            display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .login-bg::before { content: ''; position: absolute; width: 500px; height: 500px; border-radius: 50%;
+            background: rgba(212,168,67,0.1); top: -100px; right: -100px; }
+        .login-bg::after { content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%;
+            background: rgba(212,168,67,0.08); bottom: -50px; left: -50px; }
+
+        /* Page transition */
+        .page-content { animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Mobile sidebar overlay */
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 40;
+            display: none; }
+        .sidebar-overlay.show { display: block; }
+
+        /* Empty state */
+        .empty-state { text-align: center; padding: 48px 24px; color: var(--muted); }
+        .empty-state i { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+
+        /* Print */
+        @media print {
+            .sidebar, .topbar, .btn-primary, .btn-gold, .btn-outline, .btn-danger { display: none !important; }
+            .main-content { margin-left: 0 !important; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar { position: fixed; z-index: 45; transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0 !important; }
+            .notif-dropdown { width: 300px; right: -40px; }
+        }
+
+        /* Subtle background pattern */
+        .main-content { background-image: radial-gradient(circle at 1px 1px, rgba(27,67,50,0.03) 1px, transparent 0);
+            background-size: 32px 32px; }
+    </style>
+</head>
+<body>
+
+<!-- ============ TOAST CONTAINER ============ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="loginScreen" class="login-bg">
+    <div style="position:relative;z-index:1;width:100%;max-width:420px;padding:16px;">
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur mb-4">
+                <i class="fas fa-church text-3xl text-gold-300"></i>
+            </div>
+            <h1 class="font-display text-3xl font-900 text-white mb-2">Christian Assembly</h1>
+            <p class="text-pri-200 text-lg font-light tracking-wide">Heggala</p>
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow-2xl">
+            <h2 class="font-display text-xl font-700 mb-6 text-center">Sign In</h2>
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" id="loginUser" class="form-input" placeholder="Enter username" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="loginPass" class="form-input" placeholder="Enter password">
+            </div>
+            <div id="loginError" class="text-red-600 text-sm mb-4 hidden"></div>
+            <button onclick="handleLogin()" class="btn-primary w-full text-center py-3 text-base mt-2">
+                <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+            </button>
+            <div class="mt-6 pt-4 border-t border-gray-100 text-sm text-gray-500">
+                <p class="mb-1"><strong>Admin:</strong> admin / admin123</p>
+                <p><strong>Member:</strong> member / member123</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="appScreen" class="hidden">
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar fixed top-0 left-0 z-50 flex flex-col" id="sidebar">
+        <div class="p-5 pb-3">
+            <div class="flex items-center gap-3 mb-1">
+                <div class="w-10 h-10 rounded-full bg-gold-400/20 flex items-center justify-center">
+                    <i class="fas fa-church text-gold-300"></i>
+                </div>
+                <div>
+                    <h2 class="font-display text-white font-700 text-sm leading-tight">Christian Assembly</h2>
+                    <p class="text-pri-200 text-xs">Heggala</p>
+                </div>
+            </div>
+        </div>
+        <div class="px-4 mb-2"><div class="border-t border-pri-400/30"></div></div>
+        <nav class="flex-1 py-1 overflow-y-auto" id="sidebarNav">
+            <!-- Populated by JS -->
+        </nav>
+        <div class="p-4 border-t border-pri-400/30">
+            <div class="flex items-center gap-3 px-2">
+                <div class="w-9 h-9 rounded-full bg-pri-400/30 flex items-center justify-center">
+                    <i class="fas fa-user text-pri-100 text-sm"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-white text-sm font-600 truncate" id="sidebarUserName"></p>
+                    <p class="text-pri-300 text-xs" id="sidebarUserRole"></p>
+                </div>
+                <button onclick="handleLogout()" class="text-pri-300 hover:text-white transition" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content min-h-screen" style="margin-left:260px;" id="mainContent">
+        <!-- Top Bar -->
+        <header class="topbar sticky top-0 z-30 bg-cream-100/80 backdrop-blur-md border-b border-cream-300">
+            <div class="flex items-center justify-between px-6 py-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="md:hidden text-pri-500 text-xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="font-display text-xl font-700 text-pri-500" id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <!-- Notification Bell -->
+                    <div class="relative" id="notifWrapper">
+                        <button onclick="toggleNotifDropdown()" class="relative text-pri-500 hover:text-pri-700 transition text-lg">
+                            <i class="fas fa-bell"></i>
+                            <span id="notifBadge" class="hidden absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-700">0</span>
+                        </button>
+                        <div class="notif-dropdown" id="notifDropdown">
+                            <div class="flex items-center justify-between p-4 border-b border-cream-300">
+                                <h3 class="font-700 text-sm">Notifications</h3>
+                                <button onclick="markAllRead()" class="text-xs text-pri-500 hover:underline font-600">Mark all read</button>
+                            </div>
+                            <div id="notifList" class="max-h-80 overflow-y-auto">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500 hidden sm:block" id="topDate"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Page Content -->
+        <div class="p-6 page-content" id="pageContent">
+            <!-- Populated by JS -->
+        </div>
+    </main>
+</div>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box" id="modalBox">
+        <div class="flex items-center justify-between p-5 border-b border-cream-300">
+            <h3 class="font-display text-lg font-700" id="modalTitle">Modal</h3>
+            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-700 transition text-xl leading-none">&times;</button>
+        </div>
+        <div class="p-5" id="modalBody"></div>
+    </div>
+</div>
+
+<script>
+/* ========================================================================
+   STATE & DATA MANAGEMENT
+   ======================================================================== */
+const STORAGE_KEY = 'cah_church_app';
+
+// Default data seeded on first load
+function getDefaultData() {
+    const now = new Date().toISOString();
+    const monthAgo = new Date(Date.now() - 30*24*60*60*1000).toISOString();
+    return {
+        users: [
+            { id:'admin', name:'Administrator', role:'admin', password:'admin123' },
+            { id:'member', name:'Church Member', role:'user', password:'member123' }
+        ],
+        meetings: [
+            { id: genId(), title:'Sunday Worship Service', date: fmtDate(new Date()), description:'Regular Sunday worship service with praise, prayer and message. All members are requested to come on time.', createdAt: now },
+            { id: genId(), title:'Prayer Meeting', date: fmtDate(new Date(Date.now()+2*24*60*60*1000)), description:'Mid-week prayer meeting for intercession and thanksgiving. Bring your prayer requests.', createdAt: now },
+            { id: genId(), title:'Youth Fellowship', date: fmtDate(new Date(Date.now()+5*24*60*60*1000)), description:'Youth fellowship gathering with games, worship and Bible study. Age group: 15-35.', createdAt: now },
+        ],
+        offerings: [
+            { id: genId(), date: fmtDate(new Date()), type:'Sunday Offering', amount:15500, description:'First Sunday offering', createdAt: now },
+            { id: genId(), date: fmtDate(new Date(Date.now()-7*24*60*60*1000)), type:'Tithe', amount:8200, description:'Tithes collected', createdAt: monthAgo },
+            { id: genId(), date: fmtDate(new Date(Date.now()-14*24*60*60*1000)), type:'Thanksgiving', amount:5000, description:'Thanksgiving offering', createdAt: monthAgo },
+        ],
+        expenses: [
+            { id: genId(), date: fmtDate(new Date()), category:'Fuel', amount:1500, description:'Pastor travel fuel', person:'', createdAt: now },
+            { id: genId(), date: fmtDate(new Date(Date.now()-3*24*60*60*1000)), category:'Food', amount:3200, description:'Sunday fellowship meals', person:'', createdAt: now },
+            { id: genId(), date: fmtDate(new Date(Date.now()-10*24*60*60*1000)), category:'Given to Person', amount:5000, description:'Financial help for medical', person:'Brother Rajesh', createdAt: monthAgo },
+            { id: genId(), date: fmtDate(new Date(Date.now()-5*24*60*60*1000)), category:'Electricity', amount:2100, description:'Monthly electricity bill', person:'', createdAt: now },
+        ],
+        bankTransactions: [
+            { id: genId(), date: fmtDate(new Date(Date.now()-20*24*60*60*1000)), type:'Deposit', amount:15500, description:'Sunday offering deposited', reference:'', createdAt: monthAgo },
+            { id: genId(), date: fmtDate(new Date(Date.now()-15*24*60*60*1000)), type:'Withdrawal', amount:3200, description:'Food expense withdrawal', reference:'', createdAt: monthAgo },
+            { id: genId(), date: fmtDate(new Date(Date.now()-10*24*60*60*1000)), type:'Deposit', amount:8200, description:'Tithe deposited', reference:'', createdAt: monthAgo },
+            { id: genId(), date: fmtDate(new Date(Date.now()-5*24*60*60*1000)), type:'Withdrawal', amount:6600, description:'Fuel + electricity', reference:'', createdAt: now },
+        ],
+        settings: {
+            showOfferingsToUsers: true,
+            showExpensesToUsers: false,
+            showBankToUsers: false,
+            churchName: 'Christian Assembly Heggala'
+        },
+        notifications: [
+            { id: genId(), title:'Welcome to the App', message:'Church management app is now active. Admin can post meetings and manage finances.', time: now, read: false },
+            { id: genId(), title:'Sunday Service Posted', message:'Sunday Worship Service has been scheduled.', time: now, read: false },
+        ]
+    };
+}
+
+// Load / Save data
+function loadData() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    const d = getDefaultData();
+    saveData(d);
+    return d;
+}
+function saveData(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+let APP = loadData();
+let currentUser = null;
+let currentPage = 'dashboard';
+let chartInstance = null;
+
+/* ========================================================================
+   UTILITY FUNCTIONS
+   ======================================================================== */
+function genId() { return Date.now().toString(36) + Math.random().toString(36).substr(2,5); }
+function fmtDate(d) {
+    const dt = new Date(d);
+    return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
+}
+function fmtDateDisplay(str) {
+    if (!str) return '';
+    const d = new Date(str + 'T00:00:00');
+    return d.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+}
+function fmtCurrency(n) { return '₹' + Number(n||0).toLocaleString('en-IN'); }
+function fmtTime(iso) {
+    const d = new Date(iso);
+    const diff = Date.now() - d.getTime();
+    if (diff < 60000) return 'Just now';
+    if (diff < 3600000) return Math.floor(diff/60000)+'m ago';
+    if (diff < 86400000) return Math.floor(diff/3600000)+'h ago';
+    return Math.floor(diff/86400000)+'d ago';
+}
+function getMonthStr(d) {
+    const dt = new Date(d);
+    return dt.toLocaleDateString('en-IN',{month:'short',year:'2-digit'});
+}
+function getCurrentMonthItems(items) {
+    const now = new Date();
+    const y = now.getFullYear(), m = now.getMonth();
+    return items.filter(i => { const d = new Date(i.date+'T00:00:00'); return d.getFullYear()===y && d.getMonth()===m; });
+}
+function sumField(items, field) { return items.reduce((s,i) => s + (Number(i[field])||0), 0); }
+
+/* ========================================================================
+   TOAST NOTIFICATION SYSTEM
+   ======================================================================== */
+function showToast(message, type='success') {
+    const container = document.getElementById('toastContainer');
+    const icons = { success:'fa-check-circle', error:'fa-exclamation-circle', info:'fa-info-circle', warning:'fa-exclamation-triangle' };
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<i class="fas ${icons[type]||icons.info}"></i><span>${message}</span>`;
+    container.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('show'));
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+    }, 3500);
+}
+
+/* ========================================================================
+   BROWSER NOTIFICATION PERMISSION
+   ======================================================================== */
+function requestNotifPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+    }
+}
+function sendBrowserNotif(title, body) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(title, { body, icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⛪</text></svg>' });
+    }
+}
+
+/* ========================================================================
+   AUTHENTICATION
+   ======================================================================== */
+function handleLogin() {
+    const username = document.getElementById('loginUser').value.trim();
+    const password = document.getElementById('loginPass').value.trim();
+    const errEl = document.getElementById('loginError');
+    if (!username || !password) { errEl.textContent='Please enter both username and password.'; errEl.classList.remove('hidden'); return; }
+    const user = APP.users.find(u => u.id === username && u.password === password);
+    if (!user) { errEl.textContent='Invalid username or password.'; errEl.classList.remove('hidden'); return; }
+    errEl.classList.add('hidden');
+    currentUser = user;
+    sessionStorage.setItem('cah_session', user.id);
+    requestNotifPermission();
+    showApp();
+}
+function handleLogout() {
+    currentUser = null;
+    sessionStorage.removeItem('cah_session');
+    document.getElementById('appScreen').classList.add('hidden');
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('loginUser').value = '';
+    document.getElementById('loginPass').value = '';
+}
+function checkSession() {
+    const sid = sessionStorage.getItem('cah_session');
+    if (sid) {
+        const user = APP.users.find(u => u.id === sid);
+        if (user) { currentUser = user; showApp(); return; }
+    }
+}
+// Enter key on login
+document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !document.getElementById('loginScreen').classList.contains('hidden')) handleLogin();
+});
+
+/* ========================================================================
+   APP INITIALIZATION & NAVIGATION
+   ======================================================================== */
+function showApp() {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('appScreen').classList.remove('hidden');
+    document.getElementById('sidebarUserName').textContent = currentUser.name;
+    document.getElementById('sidebarUserRole').textContent = currentUser.role === 'admin' ? 'Administrator' : 'Member';
+    document.getElementById('topDate').textContent = new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    buildSidebar();
+    navigateTo('dashboard');
+    updateNotifBadge();
+}
+
+const NAV_ITEMS = [
+    { id:'dashboard', icon:'fa-th-large', label:'Dashboard', roles:['admin','user'] },
+    { id:'meetings', icon:'fa-calendar-alt', label:'Meetings', roles:['admin','user'] },
+    { id:'offerings', icon:'fa-hand-holding-heart', label:'Offerings', roles:['admin','user'], visibility:'showOfferingsToUsers' },
+    { id:'expenses', icon:'fa-receipt', label:'Expenses', roles:['admin','user'], visibility:'showExpensesToUsers' },
+    { id:'bank', icon:'fa-university', label:'Bank Report', roles:['admin','user'], visibility:'showBankToUsers' },
+    { id:'settings', icon:'fa-cog', label:'Settings', roles:['admin'] },
+];
+
+function buildSidebar() {
+    const nav = document.getElementById('sidebarNav');
+    nav.innerHTML = '';
+    NAV_ITEMS.forEach(item => {
+        // Role check
+        if (!item.roles.includes(currentUser.role)) return;
+        // Visibility check for non-admin users
+        if (currentUser.role !== 'admin' && item.visibility && !APP.settings[item.visibility]) return;
+        const link = document.createElement('div');
+        link.className = `sidebar-link ${currentPage===item.id?'active':''}`;
+        link.innerHTML = `<i class="fas ${item.icon}"></i><span>${item.label}</span>`;
+        link.onclick = () => { navigateTo(item.id); if(window.innerWidth<768) toggleSidebar(); };
+        nav.appendChild(link);
+    });
+}
+
+function navigateTo(page) {
+    currentPage = page;
+    buildSidebar();
+    const titles = { dashboard:'Dashboard', meetings:'Meetings & Events', offerings:'Offerings', expenses:'Expenses', bank:'Bank Report', settings:'Settings' };
+    document.getElementById('pageTitle').textContent = titles[page] || 'Dashboard';
+    // Close notif dropdown
+    document.getElementById('notifDropdown').classList.remove('show');
+    // Render page
+    const content = document.getElementById('pageContent');
+    content.innerHTML = '';
+    content.className = 'p-6 page-content';
+    switch(page) {
+        case 'dashboard': renderDashboard(content); break;
+        case 'meetings': renderMeetings(content); break;
+        case 'offerings': renderOfferings(content); break;
+        case 'expenses': renderExpenses(content); break;
+        case 'bank': renderBank(content); break;
+        case 'settings': renderSettings(content); break;
+    }
+}
+
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('show');
+}
+
+/* ========================================================================
+   NOTIFICATION SYSTEM
+   ======================================================================== */
+function addNotification(title, message) {
+    const n = { id: genId(), title, message, time: new Date().toISOString(), read: false };
+    APP.notifications.unshift(n);
+    if (APP.notifications.length > 50) APP.notifications = APP.notifications.slice(0,50);
+    saveData(APP);
+    updateNotifBadge();
+    sendBrowserNotif(title, message);
+}
+function updateNotifBadge() {
+    const unread = APP.notifications.filter(n => !n.read).length;
+    const badge = document.getElementById('notifBadge');
+    if (unread > 0) { badge.textContent = unread > 9 ? '9+' : unread; badge.classList.remove('hidden'); badge.classList.add('flex'); }
+    else { badge.classList.add('hidden'); badge.classList.remove('flex'); }
+}
+function toggleNotifDropdown() {
+    document.getElementById('notifDropdown').classList.toggle('show');
+    renderNotifList();
+}
+function renderNotifList() {
+    const list = document.getElementById('notifList');
+    if (APP.notifications.length === 0) {
+        list.innerHTML = '<div class="p-6 text-center text-gray-400 text-sm">No notifications yet</div>';
+        return;
+    }
+    list.innerHTML = APP.notifications.slice(0,15).map(n => `
+        <div class="flex gap-3 p-4 border-b border-cream-200 hover:bg-cream-50 transition cursor-pointer ${n.read?'opacity-60':''}" onclick="markRead('${n.id}')">
+            <div class="w-8 h-8 rounded-full ${n.read?'bg-gray-100':'bg-pri-50'} flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i class="fas fa-bell text-xs ${n.read?'text-gray-400':'text-pri-500'}"></i>
+            </div>
+            <div class="min-w-0">
+                <p class="text-sm font-600 text-gray-800 truncate">${n.title}</p>
+                <p class="text-xs text-gray-500 mt-0.5 line-clamp-2">${n.message}</p>
+                <p class="text-xs text-gray-400 mt-1">${fmtTime(n.time)}</p>
+            </div>
+        </div>
+    `).join('');
+}
+function markRead(id) {
+    const n = APP.notifications.find(x => x.id === id);
+    if (n) { n.read = true; saveData(APP); updateNotifBadge(); renderNotifList(); }
+}
+function markAllRead() {
+    APP.notifications.forEach(n => n.read = true);
+    saveData(APP);
+    updateNotifBadge();
+    renderNotifList();
+    showToast('All notifications marked as read', 'info');
+}
+// Close notif dropdown on outside click
+document.addEventListener('click', e => {
+    if (!document.getElementById('notifWrapper').contains(e.target)) {
+        document.getElementById('notifDropdown').classList.remove('show');
+    }
+});
+
+/* ========================================================================
+   MODAL SYSTEM
+   ======================================================================== */
+function openModal(title, bodyHTML) {
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = bodyHTML;
+    document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('show');
+}
+
+/* ========================================================================
+   DASHBOARD
+   ======================================================================== */
+function renderDashboard(container) {
+    const mOfferings = getCurrentMonthItems(APP.offerings);
+    const mExpenses = getCurrentMonthItems(APP.expenses);
+    const totalOfferings = sumField(mOfferings, 'amount');
+    const totalExpenses = sumField(mExpenses, 'amount');
+    // Bank balance: sum deposits - sum withdrawals
+    const bankBalance = sumField(APP.bankTransactions.filter(t=>t.type==='Deposit'),'amount')
+                      - sumField(APP.bankTransactions.filter(t=>t.type==='Withdrawal'),'amount');
+    const mMeetings = APP.meetings.length;
+
+    container.innerHTML = `
+        <!-- Welcome Banner -->
+        <div class="card mb-6 bg-gradient-to-r from-pri-500 to-pri-400 text-white border-0 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="absolute bottom-0 left-1/2 w-60 h-60 bg-white/5 rounded-full translate-y-1/2"></div>
+            <div class="relative">
+                <p class="text-pri-200 text-sm font-500 mb-1">${new Date().toLocaleDateString('en-IN',{weekday:'long'})}</p>
+                <h2 class="font-display text-2xl font-700 mb-1">Welcome, ${currentUser.name}</h2>
+                <p class="text-pri-100 text-sm">Here's an overview of ${APP.settings.churchName}</p>
+            </div>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="card stat-card green">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-pri-50 flex items-center justify-center">
+                        <i class="fas fa-hand-holding-heart text-pri-500"></i>
+                    </div>
+                    <span class="text-sm text-gray-500 font-500">This Month Offerings</span>
+                </div>
+                <p class="text-2xl font-700 text-pri-500">${fmtCurrency(totalOfferings)}</p>
+                <p class="text-xs text-gray-400 mt-1">${mOfferings.length} entries</p>
+            </div>
+            <div class="card stat-card red">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center">
+                        <i class="fas fa-receipt text-red-500"></i>
+                    </div>
+                    <span class="text-sm text-gray-500 font-500">This Month Expenses</span>
+                </div>
+                <p class="text-2xl font-700 text-red-600">${fmtCurrency(totalExpenses)}</p>
+                <p class="text-xs text-gray-400 mt-1">${mExpenses.length} entries</p>
+            </div>
+            <div class="card stat-card gold">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-gold-50 flex items-center justify-center">
+                        <i class="fas fa-university text-gold-500"></i>
+                    </div>
+                    <span class="text-sm text-gray-500 font-500">Bank Balance</span>
+                </div>
+                <p class="text-2xl font-700 text-gold-600">${fmtCurrency(bankBalance)}</p>
+                <p class="text-xs text-gray-400 mt-1">${APP.bankTransactions.length} transactions</p>
+            </div>
+            <div class="card stat-card blue">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                        <i class="fas fa-calendar-alt text-blue-500"></i>
+                    </div>
+                    <span class="text-sm text-gray-500 font-500">Upcoming Meetings</span>
+                </div>
+                <p class="text-2xl font-700 text-blue-600">${mMeetings}</p>
+                <p class="text-xs text-gray-400 mt-1">Active announcements</p>
+            </div>
+        </div>
+
+        <!-- Chart & Recent -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="card lg:col-span-2">
+                <h3 class="font-display font-700 mb-4">Monthly Overview</h3>
+                <div style="height:280px;"><canvas id="dashChart"></canvas></div>
+            </div>
+            <div class="card">
+                <h3 class="font-display font-700 mb-4">Recent Meetings</h3>
+                <div class="space-y-3">
+                    ${APP.meetings.slice(0,4).map(m => `
+                        <div class="flex gap-3 items-start">
+                            <div class="w-10 h-10 rounded-lg bg-pri-50 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-calendar-day text-pri-500 text-sm"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-sm font-600 truncate">${m.title}</p>
+                                <p class="text-xs text-gray-400">${fmtDateDisplay(m.date)}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                    ${APP.meetings.length===0?'<p class="text-sm text-gray-400">No meetings posted yet</p>':''}
+                </div>
+            </div>
+        </div>
+
+        ${currentUser.role==='admin'?`
+        <!-- Quick Actions -->
+        <div class="mt-6">
+            <h3 class="font-display font-700 mb-4">Quick Actions</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <button onclick="navigateTo('meetings');setTimeout(()=>openMeetingModal(),100)" class="card flex flex-col items-center gap-2 py-5 hover:border-pri-300 cursor-pointer text-center">
+                    <i class="fas fa-plus-circle text-xl text-pri-500"></i>
+                    <span class="text-sm font-600">New Meeting</span>
+                </button>
+                <button onclick="navigateTo('offerings');setTimeout(()=>openOfferingModal(),100)" class="card flex flex-col items-center gap-2 py-5 hover:border-gold-300 cursor-pointer text-center">
+                    <i class="fas fa-hand-holding-usd text-xl text-gold-500"></i>
+                    <span class="text-sm font-600">Add Offering</span>
+                </button>
+                <button onclick="navigateTo('expenses');setTimeout(()=>openExpenseModal(),100)" class="card flex flex-col items-center gap-2 py-5 hover:border-red-300 cursor-pointer text-center">
+                    <i class="fas fa-file-invoice-dollar text-xl text-red-500"></i>
+                    <span class="text-sm font-600">Add Expense</span>
+                </button>
+                <button onclick="navigateTo('bank');setTimeout(()=>openBankModal(),100)" class="card flex flex-col items-center gap-2 py-5 hover:border-blue-300 cursor-pointer text-center">
+                    <i class="fas fa-exchange-alt text-xl text-blue-500"></i>
+                    <span class="text-sm font-600">Bank Entry</span>
+                </button>
+            </div>
+        </div>
+        `:''}
+    `;
+    renderDashChart();
+}
+
+function renderDashChart() {
+    const canvas = document.getElementById('dashChart');
+    if (!canvas) return;
+    if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+    // Build last 6 months data
+    const labels = [], offerData = [], expData = [];
+    for (let i = 5; i >= 0; i--) {
+        const d = new Date(); d.setMonth(d.getMonth()-i);
+        const y = d.getFullYear(), m = d.getMonth();
+        labels.push(d.toLocaleDateString('en-IN',{month:'short',year:'2-digit'}));
+        offerData.push(sumField(APP.offerings.filter(o => { const od=new Date(o.date+'T00:00:00'); return od.getFullYear()===y&&od.getMonth()===m; }),'amount'));
+        expData.push(sumField(APP.expenses.filter(e => { const ed=new Date(e.date+'T00:00:00'); return ed.getFullYear()===y&&ed.getMonth()===m; }),'amount'));
+    }
+    chartInstance = new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                { label:'Offerings', data:offerData, backgroundColor:'rgba(27,67,50,0.8)', borderRadius:6, barPercentage:0.4 },
+                { label:'Expenses', data:expData, backgroundColor:'rgba(212,168,67,0.8)', borderRadius:6, barPercentage:0.4 }
+            ]
+        },
+        options: {
+            responsive:true, maintainAspectRatio:false,
+            plugins:{ legend:{ position:'bottom', labels:{ usePointStyle:true, padding:16, font:{family:'Source Sans 3'} } } },
+            scales:{
+                y:{ beginAtZero:true, ticks:{ callback:v=>'₹'+v.toLocaleString('en-IN'), font:{family:'Source Sans 3'} }, grid:{color:'rgba(0,0,0,0.04)'} },
+                x:{ ticks:{font:{family:'Source Sans 3'}}, grid:{display:false} }
+            }
+        }
+    });
+}
+
+/* ========================================================================
+   MEETINGS PAGE
+   ======================================================================== */
+function renderMeetings(container) {
+    const sorted = [...APP.meetings].sort((a,b) => new Date(b.date)-new Date(a.date));
+    container.innerHTML = `
+        <div class="flex items-center justify-between mb-6">
+            <p class="text-sm text-gray-500">${sorted.length} meeting${sorted.length!==1?'s':''} posted</p>
+            ${currentUser.role==='admin'?`<button class="btn-primary" onclick="openMeetingModal()"><i class="fas fa-plus mr-2"></i>New Meeting</button>`:''}
+        </div>
+        ${sorted.length===0?`
+            <div class="empty-state"><i class="fas fa-calendar-plus block"></i><p class="text-lg font-600 mb-1">No meetings yet</p><p class="text-sm">Admin can post new meetings and events here.</p></div>
+        `:`
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                ${sorted.map(m => {
+                    const isPast = new Date(m.date+'T23:59:59') < new Date();
+                    const isToday = m.date === fmtDate(new Date());
+                    return `
+                    <div class="card relative">
+                        ${isToday?'<div class="absolute top-4 right-4"><span class="badge badge-green">Today</span></div>':''}
+                        ${isPast&&!isToday?'<div class="absolute top-4 right-4"><span class="badge badge-gold">Past</span></div>':''}
+                        <div class="flex gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-pri-50 flex flex-col items-center justify-center flex-shrink-0">
+                                <span class="text-lg font-700 text-pri-500 leading-none">${new Date(m.date+'T00:00:00').getDate()}</span>
+                                <span class="text-xs text-pri-400 font-600">${new Date(m.date+'T00:00:00').toLocaleDateString('en-IN',{month:'short'})}</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-display font-700 text-base mb-1">${m.title}</h3>
+                                <p class="text-sm text-gray-500 leading-relaxed">${m.description}</p>
+                                <p class="text-xs text-gray-400 mt-2"><i class="far fa-clock mr-1"></i>${fmtDateDisplay(m.date)}</p>
+                            </div>
+                        </div>
+                        ${currentUser.role==='admin'?`
+                        <div class="flex gap-2 mt-4 pt-3 border-t border-cream-200">
+                            <button class="btn-outline btn-sm" onclick="openMeetingModal('${m.id}')"><i class="fas fa-edit mr-1"></i>Edit</button>
+                            <button class="btn-danger btn-sm" onclick="deleteMeeting('${m.id}')"><i class="fas fa-trash mr-1"></i>Delete</button>
+                        </div>`:''}
+                    </div>`;
+                }).join('')}
+            </div>
+        `}
+    `;
+}
+
+function openMeetingModal(editId) {
+    const m = editId ? APP.meetings.find(x=>x.id===editId) : null;
+    openModal(m?'Edit Meeting':'New Meeting', `
+        <div class="form-group">
+            <label class="form-label">Meeting Title</label>
+            <input type="text" id="mTitle" class="form-input" placeholder="e.g. Sunday Worship Service" value="${m?m.title:''}">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" id="mDate" class="form-input" value="${m?m.date:fmtDate(new Date())}">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea id="mDesc" class="form-input" rows="4" placeholder="Meeting details...">${m?m.description:''}</textarea>
+        </div>
+        <button class="btn-primary w-full" onclick="saveMeeting('${editId||''}')">
+            <i class="fas fa-save mr-2"></i>${m?'Update':'Post'} Meeting
+        </button>
+    `);
+}
+function saveMeeting(editId) {
+    const title = document.getElementById('mTitle').value.trim();
+    const date = document.getElementById('mDate').value;
+    const desc = document.getElementById('mDesc').value.trim();
+    if (!title) { showToast('Please enter a meeting title','error'); return; }
+    if (!date) { showToast('Please select a date','error'); return; }
+    if (editId) {
+        const m = APP.meetings.find(x=>x.id===editId);
+        if (m) { m.title=title; m.date=date; m.description=desc; }
+        showToast('Meeting updated successfully');
+    } else {
+        APP.meetings.push({ id:genId(), title, date, description:desc, createdAt:new Date().toISOString() });
+        addNotification('New Meeting Posted', `"${title}" on ${fmtDateDisplay(date)}`);
+        showToast('Meeting posted successfully');
+    }
+    saveData(APP); closeModal(); navigateTo('meetings');
+}
+function deleteMeeting(id) {
+    openModal('Delete Meeting', `
+        <p class="text-gray-600 mb-6">Are you sure you want to delete this meeting? This action cannot be undone.</p>
+        <div class="flex gap-3">
+            <button class="btn-outline flex-1" onclick="closeModal()">Cancel</button>
+            <button class="btn-danger flex-1" onclick="confirmDeleteMeeting('${id}')">Delete</button>
+        </div>
+    `);
+}
+function confirmDeleteMeeting(id) {
+    APP.meetings = APP.meetings.filter(x=>x.id!==id);
+    saveData(APP); closeModal(); navigateTo('meetings');
+    showToast('Meeting deleted','warning');
+}
+
+/* ========================================================================
+   OFFERINGS PAGE
+   ======================================================================== */
+function renderOfferings(container) {
+    const sorted = [...APP.offerings].sort((a,b) => new Date(b.date)-new Date(a.date));
+    const total = sumField(sorted, 'amount');
+    const types = [...new Set(sorted.map(o=>o.type))];
+    container.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <div>
+                <p class="text-sm text-gray-500">${sorted.length} offering entries</p>
+                <p class="text-lg font-700 text-pri-500">Total: ${fmtCurrency(total)}</p>
+            </div>
+            <div class="flex gap-2">
+                ${currentUser.role==='admin'?`<button class="btn-primary" onclick="openOfferingModal()"><i class="fas fa-plus mr-2"></i>Add Offering</button>`:''}
+                <button class="btn-outline" onclick="printSection('offerings')"><i class="fas fa-print mr-2"></i>Print</button>
+            </div>
+        </div>
+        <div class="card overflow-hidden p-0" id="offerings">
+            ${sorted.length===0?`
+                <div class="empty-state"><i class="fas fa-hand-holding-heart block"></i><p class="text-lg font-600 mb-1">No offerings recorded</p><p class="text-sm">Admin can add offering entries here.</p></div>
+            `:`
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead><tr>
+                            <th>Date</th><th>Type</th><th>Description</th><th class="text-right">Amount</th>
+                            ${currentUser.role==='admin'?'<th class="text-right">Actions</th>':''}
+                        </tr></thead>
+                        <tbody>
+                            ${sorted.map(o => `
+                                <tr>
+                                    <td class="whitespace-nowrap">${fmtDateDisplay(o.date)}</td>
+                                    <td><span class="badge badge-green">${o.type}</span></td>
+                                    <td class="text-gray-600 max-w-xs truncate">${o.description||'-'}</td>
+                                    <td class="text-right font-700 text-pri-500 whitespace-nowrap">${fmtCurrency(o.amount)}</td>
+                                    ${currentUser.role==='admin'?`
+                                    <td class="text-right whitespace-nowrap">
+                                        <button class="text-gray-400 hover:text-pri-500 mx-1" onclick="openOfferingModal('${o.id}')"><i class="fas fa-edit"></i></button>
+                                        <button class="text-gray-400 hover:text-red-500 mx-1" onclick="deleteOffering('${o.id}')"><i class="fas fa-trash"></i></button>
+                                    </td>`:''}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+function openOfferingModal(editId) {
+    const o = editId ? APP.offerings.find(x=>x.id===editId) : null;
+    const typeOptions = ['Sunday Offering','Tithe','Thanksgiving','Special Offering','Building Fund','Other'];
+    openModal(o?'Edit Offering':'Add Offering', `
+        <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" id="oDate" class="form-input" value="${o?o.date:fmtDate(new Date())}">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Type</label>
+            <select id="oType" class="form-input">
+                ${typeOptions.map(t=>`<option ${o&&o.type===t?'selected':''}>${t}</option>`).join('')}
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Amount (₹)</label>
+            <input type="number" id="oAmount" class="form-input" placeholder="0" min="0" value="${o?o.amount:''}">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Description</label>
+            <input type="text" id="oDesc" class="form-input" placeholder="Optional notes" value="${o?o.description:''}">
+        </div>
+        <button class="btn-primary w-full" onclick="saveOffering('${editId||''}')">
+            <i class="fas fa-save mr-2"></i>${o?'Update':'Save'} Offering
+        </button>
+    `);
+}
+function saveOffering(editId) {
+    const date = document.getElementById('oDate').value;
+    const type = document.getElementById('oType').value;
+    const amount = parseFloat(document.getElementById('oAmount').value);
+    const desc = document.getElementById('oDesc').value.trim();
+    if (!date||!amount||amount<=0) { showToast('Please fill date and valid amount','error'); return; }
+    if (editId) {
+        const o = APP.offerings.find(x=>x.id===editId);
+        if (o) { o.date=date; o.type=type; o.amount=amount; o.description=desc; }
+        showToast('Offering updated');
+    } else {
+        APP.offerings.push({ id:genId(), date, type, amount, description:desc, createdAt:new Date().toISOString() });
+        showToast('Offering added successfully');
+    }
+    saveData(APP); closeModal(); navigateTo('offerings');
+}
+function deleteOffering(id) {
+    openModal('Delete Offering', `
+        <p class="text-gray-600 mb-6">Are you sure you want to delete this offering entry?</p>
+        <div class="flex gap-3">
+            <button class="btn-outline flex-1" onclick="closeModal()">Cancel</button>
+            <button class="btn-danger flex-1" onclick="APP.offerings=APP.offerings.filter(x=>x.id!=='${id}');saveData(APP);closeModal();navigateTo('offerings');showToast('Offering deleted','warning');">Delete</button>
+        </div>
+    `);
+}
+
+/* ========================================================================
+   EXPENSES PAGE
+   ======================================================================== */
+const EXPENSE_CATEGORIES = ['Given to Person','Fuel','Food','Building Maintenance','Electricity','Water','Stationery','Travel','Rent','Medical Help','Miscellaneous'];
+
+function renderExpenses(container) {
+    const sorted = [...APP.expenses].sort((a,b) => new Date(b.date)-new Date(a.date));
+    const total = sumField(sorted, 'amount');
+    // Category breakdown
+    const catBreakdown = {};
+    sorted.forEach(e => { catBreakdown[e.category] = (catBreakdown[e.category]||0) + e.amount; });
+
+    container.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <div>
+                <p class="text-sm text-gray-500">${sorted.length} expense entries</p>
+                <p class="text-lg font-700 text-red-600">Total: ${fmtCurrency(total)}</p>
+            </div>
+            <div class="flex gap-2">
+                ${currentUser.role==='admin'?`<button class="btn-primary" onclick="openExpenseModal()"><i class="fas fa-plus mr-2"></i>Add Expense</button>`:''}
+                <button class="btn-outline" onclick="printSection('expensesSection')"><i class="fas fa-print mr-2"></i>Print</button>
+            </div>
+        </div>
+
+        <!-- Category Breakdown -->
+        ${Object.keys(catBreakdown).length>0?`
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
+            ${Object.entries(catBreakdown).sort((a,b)=>b[1]-a[1]).map(([cat,amt]) => `
+                <div class="card py-3 px-4">
+                    <p class="text-xs text-gray-500 font-500 truncate">${cat}</p>
+                    <p class="text-base font-700 text-red-600">${fmtCurrency(amt)}</p>
+                </div>
+            `).join('')}
+        </div>`:''}
+
+        <div class="card overflow-hidden p-0" id="expensesSection">
+            ${sorted.length===0?`
+                <div class="empty-state"><i class="fas fa-receipt block"></i><p class="text-lg font-600 mb-1">No expenses recorded</p><p class="text-sm">Admin can add expense entries here.</p></div>
+            `:`
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead><tr>
+                            <th>Date</th><th>Category</th><th>Description</th>${sorted.some(e=>e.person)?'<th>Person</th>':''}<th class="text-right">Amount</th>
+                            ${currentUser.role==='admin'?'<th class="text-right">Actions</th>':''}
+                        </tr></thead>
+                        <tbody>
+                            ${sorted.map(e => `
+                                <tr>
+                                    <td class="whitespace-nowrap">${fmtDateDisplay(e.date)}</td>
+                                    <td><span class="badge ${e.category==='Given to Person'?'badge-gold':e.category==='Fuel'?'badge-blue':'badge-red'}">${e.category}</span></td>
+                                    <td class="text-gray-600 max-w-xs truncate">${e.description||'-'}</td>
+                                    ${sorted.some(x=>x.person)?`<td class="text-gray-600">${e.person||'-'}</td>`:''}
+                                    <td class="text-right font-700 text-red-600 whitespace-nowrap">${fmtCurrency(e.amount)}</td>
+                                    ${currentUser.role==='admin'?`
+                                    <td class="text-right whitespace-nowrap">
+                                        <button class="text-gray-400 hover:text-pri-500 mx-1" onclick="openExpenseModal('${e.id}')"><i class="fas fa-edit"></i></button>
+                                        <button class="text-gray-400 hover:text-red-500 mx-1" onclick="deleteExpense('${e.id}')"><i class="fas fa-trash"></i></button>
+                                    </td>`:''}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+function openExpenseModal(editId) {
+    const e = editId ? APP.expenses.find(x=>x.id===editId) : null;
+    openModal(e?'Edit Expense':'Add Expense', `
+        <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" id="eDate" class="form-input" value="${e?e.date:fmtDate(new Date())}">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="eCat" class="form-input" onchange="togglePersonField()">
+                ${EXPENSE_CATEGORIES.map(c=>`<option ${e&&e.category===c?'selected':''}>${c}</option>`).join('')}
+            </select>
+        </div>
+        <div class="form-group" id="ePersonGroup" style="${e&&e.category==='Given to Person'||!e?'':'display:none'}">
+            <label class="form-label">Person Name</label>
+            <input type="text" id="ePerson" class="form-input" placeholder="Name of the person" value="${e?e.person:''}">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Amount (₹)</label>
+            <input type="number" id="eAmount" class="form-input" placeholder="0" min="0" value="${e?e.amount:''}">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Description</label>
+            <input type="text" id="eDesc" class="form-input" placeholder="Details about this expense" value="${e?e.description:''}">
+        </div>
+        <button class="btn-primary w-full" onclick="saveExpense('${editId||''}')">
+            <i class="fas fa-save mr-2"></i>${e?'Update':'Save'} Expense
+        </button>
+    `);
+}
+function togglePersonField() {
+    const cat = document.getElementById('eCat').value;
+    document.getElementById('ePersonGroup').style.display = cat==='Given to Person'?'':'none';
+}
+function saveExpense(editId) {
+    const date = document.getElementById('eDate').value;
+    const category = document.getElementById('eCat').value;
+    const person = document.getElementById('ePerson').value.trim();
+    const amount = parseFloat(document.getElementById('eAmount').value);
+    const desc = document.getElementById('eDesc').value.trim();
+    if (!date||!amount||amount<=0) { showToast('Please fill date and valid amount','error'); return; }
+    if (category==='Given to Person'&&!person) { showToast('Please enter the person name','error'); return; }
+    if (editId) {
+        const e = APP.expenses.find(x=>x.id===editId);
+        if (e) { e.date=date; e.category=category; e.person=person; e.amount=amount; e.description=desc; }
+        showToast('Expense updated');
+    } else {
+        APP.expenses.push({ id:genId(), date, category, person, amount, description:desc, createdAt:new Date().toISOString() });
+        showToast('Expense added successfully');
+    }
+    saveData(APP); closeModal(); navigateTo('expenses');
+}
+function deleteExpense(id) {
+    openModal('Delete Expense', `
+        <p class="text-gray-600 mb-6">Are you sure you want to delete this expense entry?</p>
+        <div class="flex gap-3">
+            <button class="btn-outline flex-1" onclick="closeModal()">Cancel</button>
+            <button class="btn-danger flex-1" onclick="APP.expenses=APP.expenses.filter(x=>x.id!=='${id}');saveData(APP);closeModal();navigateTo('expenses');showToast('Expense deleted','warning');">Delete</button>
+        </div>
+    `);
+}
+
+/* ========================================================================
+   BANK REPORT PAGE (Passbook Style)
+   ======================================================================== */
+function renderBank(container) {
+    const sorted = [...APP.bankTransactions].sort((a,b) => new Date(a.date)-new Date(b.date));
+    // Calculate running balance
+    let balance = 0;
+    const withBalance = sorted.map(t => {
+        balance += t.type==='Deposit' ? t.amount : -t.amount;
+        return { ...t, balance };
+    });
+    const totalDeposits = sumField(sorted.filter(t=>t.type==='Deposit'),'amount');
+    const totalWithdrawals = sumField(sorted.filter(t=>t.type==='Withdrawal'),'amount');
+    const finalBalance = balance;
+
+    container.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <div>
+                <p class="text-sm text-gray-500">Bank Passbook Report</p>
+            </div>
+            <div class="flex gap-2">
+                ${currentUser.role==='admin'?`<button class="btn-primary" onclick="openBankModal()"><i class="fas fa-plus mr-2"></i>Add Transaction</button>`:''}
+                <button class="btn-outline" onclick="printSection('bankSection')"><i class="fas fa-print mr-2"></i>Print</button>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div class="card bg-pri-50 border-pri-100">
+                <p class="text-xs text-pri-400 font-600 uppercase tracking-wide">Total Deposits</p>
+                <p class="text-xl font-700 text-pri-500 mt-1">${fmtCurrency(totalDeposits)}</p>
+            </div>
+            <div class="card bg-red-50 border-red-100">
+                <p class="text-xs text-red-400 font-600 uppercase tracking-wide">Total Withdrawals</p>
+                <p class="text-xl font-700 text-red-600 mt-1">${fmtCurrency(totalWithdrawals)}</p>
+            </div>
+            <div class="card bg-gold-50 border-gold-100">
+                <p class="text-xs text-gold-500 font-600 uppercase tracking-wide">Current Balance</p>
+                <p class="text-xl font-700 text-gold-600 mt-1">${fmtCurrency(finalBalance)}</p>
+            </div>
+        </div>
+
+        <!-- Passbook -->
+        <div class="card overflow-hidden p-0" id="bankSection">
+            <div class="bg-pri-500 text-white px-5 py-3">
+                <h3 class="font-display font-700">Passbook</h3>
+                <p class="text-pri-200 text-xs">${APP.settings.churchName}</p>
+            </div>
+            ${withBalance.length===0?`
+                <div class="empty-state"><i class="fas fa-university block"></i><p class="text-lg font-600 mb-1">No transactions yet</p><p class="text-sm">Admin can add bank transactions here.</p></div>
+            `:`
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead><tr>
+                            <th>Date</th><th>Type</th><th>Description</th><th>Reference</th><th class="text-right">Deposit</th><th class="text-right">Withdrawal</th><th class="text-right">Balance</th>
+                            ${currentUser.role==='admin'?'<th class="text-right">Actions</th>':''}
+                        </tr></thead>
+                        <tbody>
+                            ${withBalance.map(t => `
+                                <tr>
+                                    <td class="whitespace-nowrap">${fmtDateDisplay(t.date)}</td>
+                                    <td><span class="badge ${t.type==='Deposit'?'badge-green':'badge-red'}">${t.type}</span></td>
+                                    <td class="text-gray-600 max-w-xs truncate">${t.description||'-'}</td>
+                                    <td class="text-gray-400 text-sm">${t.reference||'-'}</td>
+                                    <td class="text-right font-600 text-pri-500 whitespace-nowrap">${t.type==='Deposit'?fmtCurrency(t.amount):'-'}</td>
+                                    <td class="text-right font-600 text-red-600 whitespace-nowrap">${t.type==='Withdrawal'?fmtCurrency(t.amount):'-'}</td>
+                                    <td class="text-right font-700 whitespace-nowrap ${t.balance<0?'text-red-600':'text-gray-800'}">${fmtCurrency(t.balance)}</td>
+                                    ${currentUser.role==='admin'?`
+                                    <td class="text-right whitespace-nowrap">
+                                        <button class="text-gray-400 hover:text-pri-500 mx-1" onclick="openBankModal('${t.id}')"><i class="fas fa-edit"></i></button>
+                                        <button class="text-gray-400 hover:text-red-500 mx-1" onclick="deleteBankTx('${t.id}')"><i class="fas fa-trash"></i></button>
+                                    </td>`:''}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+function openBankModal(editId) {
+    const t = editId ? APP.bankTransactions.find(x=>x.id===editId) : null;
+    openModal(t?'Edit Transaction':'Add Transaction', `
+        <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" id="bDate" class="form-input" value="${t?t.date:fmtDate(new Date())}">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Type</label>
+            <select id="bType" class="form-input">
+                <option ${t&&t.type==='Deposit'?'selected':''}>Deposit</option>
+                <option ${t&&t.type==='Withdrawal'?'selected':''}>Withdrawal</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Amount (₹)</label>
+            <input type="number" id="bAmount" class="form-input" placeholder="0" min="0" value="${t?t.amount:''}">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Description</label>
+            <input type="text" id="bDesc" class="form-input" placeholder="Transaction details" value="${t?t.description:''}">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Reference Number</label>
+            <input type="text" id="bRef" class="form-input" placeholder="Optional" value="${t?t.reference:''}">
+        </div>
+        <button class="btn-primary w-full" onclick="saveBankTx('${editId||''}')">
+            <i class="fas fa-save mr-2"></i>${t?'Update':'Save'} Transaction
+        </button>
+    `);
+}
+function saveBankTx(editId) {
+    const date = document.getElementById('bDate').value;
+    const type = document.getElementById('bType').value;
+    const amount = parseFloat(document.getElementById('bAmount').value);
+    const desc = document.getElementById('bDesc').value.trim();
+    const reference = document.getElementById('bRef').value.trim();
+    if (!date||!amount||amount<=0) { showToast('Please fill date and valid amount','error'); return; }
+    if (editId) {
+        const t = APP.bankTransactions.find(x=>x.id===editId);
+        if (t) { t.date=date; t.type=type; t.amount=amount; t.description=desc; t.reference=reference; }
+        showToast('Transaction updated');
+    } else {
+        APP.bankTransactions.push({ id:genId(), date, type, amount, description:desc, reference, createdAt:new Date().toISOString() });
+        showToast('Transaction added successfully');
+    }
+    saveData(APP); closeModal(); navigateTo('bank');
+}
+function deleteBankTx(id) {
+    openModal('Delete Transaction', `
+        <p class="text-gray-600 mb-6">Are you sure you want to delete this bank transaction? Balance will be recalculated.</p>
+        <div class="flex gap-3">
+            <button class="btn-outline flex-1" onclick="closeModal()">Cancel</button>
+            <button class="btn-danger flex-1" onclick="APP.bankTransactions=APP.bankTransactions.filter(x=>x.id!=='${id}');saveData(APP);closeModal();navigateTo('bank');showToast('Transaction deleted','warning');">Delete</button>
+        </div>
+    `);
+}
+
+/* ========================================================================
+   SETTINGS PAGE (Admin Only)
+   ======================================================================== */
+function renderSettings(container) {
+    const s = APP.settings;
+    container.innerHTML = `
+        <!-- Visibility Controls -->
+        <div class="card mb-6">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-pri-50 flex items-center justify-center">
+                    <i class="fas fa-eye text-pri-500"></i>
+                </div>
+                <div>
+                    <h3 class="font-display font-700">Member Visibility Controls</h3>
+                    <p class="text-sm text-gray-500">Control what church members can see in the app</p>
+                </div>
+            </div>
+            <div class="space-y-5">
+                <div class="flex items-center justify-between py-3 border-b border-cream-200">
+                    <div>
+                        <p class="font-600 text-sm">Offerings</p>
+                        <p class="text-xs text-gray-500">Allow members to view offering records</p>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" ${s.showOfferingsToUsers?'checked':''} onchange="toggleVisibility('showOfferingsToUsers',this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between py-3 border-b border-cream-200">
+                    <div>
+                        <p class="font-600 text-sm">Expenses</p>
+                        <p class="text-xs text-gray-500">Allow members to view expense records</p>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" ${s.showExpensesToUsers?'checked':''} onchange="toggleVisibility('showExpensesToUsers',this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between py-3">
+                    <div>
+                        <p class="font-600 text-sm">Bank Report</p>
+                        <p class="text-xs text-gray-500">Allow members to view bank passbook</p>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" ${s.showBankToUsers?'checked':''} onchange="toggleVisibility('showBankToUsers',this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Church Info -->
+        <div class="card mb-6">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-gold-50 flex items-center justify-center">
+                    <i class="fas fa-church text-gold-500"></i>
+                </div>
+                <div>
+                    <h3 class="font-display font-700">Church Information</h3>
+                    <p class="text-sm text-gray-500">Update church details</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Church Name</label>
+                <input type="text" id="sChurchName" class="form-input" value="${s.churchName}">
+            </div>
+            <button class="btn-primary" onclick="saveChurchInfo()"><i class="fas fa-save mr-2"></i>Save Changes</button>
+        </div>
+
+        <!-- User Management -->
+        <div class="card mb-6">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                        <i class="fas fa-users text-blue-500"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-700">User Management</h3>
+                        <p class="text-sm text-gray-500">Manage app users</p>
+                    </div>
+                </div>
+                <button class="btn-outline btn-sm" onclick="openAddUserModal()"><i class="fas fa-user-plus mr-1"></i>Add User</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead><tr><th>Username</th><th>Name</th><th>Role</th><th class="text-right">Actions</th></tr></thead>
+                    <tbody>
+                        ${APP.users.map(u => `
+                            <tr>
+                                <td class="font-600">${u.id}</td>
+                                <td>${u.name}</td>
+                                <td><span class="badge ${u.role==='admin'?'badge-gold':'badge-green'}">${u.role==='admin'?'Admin':'Member'}</span></td>
+                                <td class="text-right">
+                                    ${u.id!=='admin'?`<button class="text-gray-400 hover:text-red-500" onclick="deleteUser('${u.id}')"><i class="fas fa-trash"></i></button>`:'<span class="text-xs text-gray-400">Primary</span>'}
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Data Management -->
+        <div class="card">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center">
+                    <i class="fas fa-database text-red-500"></i>
+                </div>
+                <div>
+                    <h3 class="font-display font-700">Data Management</h3>
+                    <p class="text-sm text-gray-500">Export or reset all app data</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <button class="btn-outline" onclick="exportData()"><i class="fas fa-download mr-2"></i>Export Data (JSON)</button>
+                <button class="btn-danger" onclick="resetAllData()"><i class="fas fa-exclamation-triangle mr-2"></i>Reset All Data</button>
+            </div>
+        </div>
+    `;
+}
+
+function toggleVisibility(key, value) {
+    APP.settings[key] = value;
+    saveData(APP);
+    const labels = { showOfferingsToUsers:'Offerings', showExpensesToUsers:'Expenses', showBankToUsers:'Bank Report' };
+    addNotification(
+        `${labels[key]} ${value?'Visible':'Hidden'}`,
+        `Admin has ${value?'made':'hidden'} the ${labels[key]} section for members.`
+    );
+    showToast(`${labels[key]} ${value?'is now visible to members':'is now hidden from members'}`, 'info');
+    buildSidebar(); // Update nav items
+}
+
+function saveChurchInfo() {
+    const name = document.getElementById('sChurchName').value.trim();
+    if (!name) { showToast('Church name cannot be empty','error'); return; }
+    APP.settings.churchName = name;
+    saveData(APP);
+    showToast('Church information updated');
+}
+
+function openAddUserModal() {
+    openModal('Add New User', `
+        <div class="form-group">
+            <label class="form-label">Username (login ID)</label>
+            <input type="text" id="nuId" class="form-input" placeholder="e.g. john">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="nuName" class="form-input" placeholder="e.g. John Samuel">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="text" id="nuPass" class="form-input" placeholder="Set a password">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Role</label>
+            <select id="nuRole" class="form-input">
+                <option>user</option>
+                <option>admin</option>
+            </select>
+        </div>
+        <button class="btn-primary w-full" onclick="saveNewUser()"><i class="fas fa-user-plus mr-2"></i>Create User</button>
+    `);
+}
+function saveNewUser() {
+    const id = document.getElementById('nuId').value.trim().toLowerCase();
+    const name = document.getElementById('nuName').value.trim();
+    const pass = document.getElementById('nuPass').value;
+    const role = document.getElementById('nuRole').value;
+    if (!id||!name||!pass) { showToast('Please fill all fields','error'); return; }
+    if (APP.users.find(u=>u.id===id)) { showToast('Username already exists','error'); return; }
+    APP.users.push({ id, name, role, password:pass });
+    saveData(APP); closeModal(); navigateTo('settings');
+    showToast('User created successfully');
+}
+function deleteUser(id) {
+    openModal('Delete User', `
+        <p class="text-gray-600 mb-6">Are you sure you want to delete this user?</p>
+        <div class="flex gap-3">
+            <button class="btn-outline flex-1" onclick="closeModal()">Cancel</button>
+            <button class="btn-danger flex-1" onclick="APP.users=APP.users.filter(u=>u.id!=='${id}');saveData(APP);closeModal();navigateTo('settings');showToast('User deleted','warning');">Delete</button>
+        </div>
+    `);
+}
+
+function exportData() {
+    const blob = new Blob([JSON.stringify(APP, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `cah_backup_${fmtDate(new Date())}.json`; a.click();
+    URL.revokeObjectURL(url);
+    showToast('Data exported successfully');
+}
+function resetAllData() {
+    openModal('Reset All Data', `
+        <div class="text-center mb-6">
+            <div class="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-exclamation-triangle text-2xl text-red-500"></i>
+            </div>
+            <p class="font-700 text-lg mb-2">This will delete ALL data</p>
+            <p class="text-sm text-gray-500">All meetings, offerings, expenses, bank transactions, and users (except admin) will be permanently removed. This cannot be undone.</p>
+        </div>
+        <div class="flex gap-3">
+            <button class="btn-outline flex-1" onclick="closeModal()">Cancel</button>
+            <button class="btn-danger flex-1" onclick="confirmReset()">Reset Everything</button>
+        </div>
+    `);
+}
+function confirmReset() {
+    const d = getDefaultData();
+    d.settings = APP.settings; // Keep settings
+    d.users = APP.users.filter(u=>u.id==='admin'); // Keep admin only
+    APP = d;
+    saveData(APP); closeModal(); navigateTo('dashboard');
+    showToast('All data has been reset','warning');
+}
+
+/* ========================================================================
+   PRINT HELPER
+   ======================================================================== */
+function printSection(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const w = window.open('','','width=800,height=600');
+    w.document.write(`<html><head><title>Print - ${APP.settings.churchName}</title>
+        <style>body{font-family:'Source Sans 3',sans-serif;padding:24px;color:#1A1A2E;}
+        table{width:100%;border-collapse:collapse;margin-top:16px;}
+        th,td{padding:8px 12px;border:1px solid #ddd;text-align:left;font-size:13px;}
+        th{background:#f5f5f5;font-weight:600;}
+        h2{font-family:'Playfair Display',serif;margin-bottom:4px;}
+        .sub{color:#666;font-size:13px;margin-bottom:16px;}</style></head><body>`);
+    w.document.write(`<h2>${APP.settings.churchName}</h2><p class="sub">Printed on ${new Date().toLocaleString('en-IN')}</p>`);
+    w.document.write(el.innerHTML);
+    w.document.write('</body></html>');
+    w.document.close();
+    w.print();
+}
+
+/* ========================================================================
+   INITIALIZATION
+   ======================================================================== */
+checkSession();
+</script>
+</body>
+</html>
